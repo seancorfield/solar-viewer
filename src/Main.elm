@@ -50,11 +50,11 @@ power s =
         Err _ -> 0.0
         Ok  v -> v
     u =
-      case List.head (Regex.find (Regex.AtMost 1) (Regex.regex "k?Wh?</td>") s) of
+      case List.head (Regex.find (Regex.AtMost 1) (Regex.regex "[kM]?Wh?</td>") s) of
         Just m -> m.match
         Nothing -> "?"
   in
-    if String.startsWith "W" u then v * 0.001 else v
+    if String.startsWith "W" u then v * 0.001 else if String.startsWith "M" u then v * 1000.0 else v
 
 powerUsage : List String -> PowerUsage
 powerUsage ss =
